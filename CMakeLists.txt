@@ -5,7 +5,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("rayliblu")
+project ("raylib-luau")
 
 add_subdirectory(thirdparty/luau)
 
@@ -28,22 +28,22 @@ if (NOT raylib_FOUND)
   endif()
 endif()
 
-add_library(rayliblu SHARED "test.cpp" )
+add_library(raylib-luau SHARED "LuauRaylib.cpp"     "LuauRaylib.h")
 
-target_link_libraries(rayliblu PRIVATE Luau.VM Luau.Compiler raylib)
+target_link_libraries(raylib-luau PRIVATE Luau.VM Luau.Compiler raylib)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET rayliblu PROPERTY CXX_STANDARD 20)
+  set_property(TARGET raylib-luau PROPERTY CXX_STANDARD 20)
 endif()
 
 if (APPLE)
-    target_link_libraries(rayliblu "-framework IOKit")
-    target_link_libraries(rayliblu "-framework Cocoa")
-    target_link_libraries(rayliblu "-framework OpenGL")
+    target_link_libraries(raylib-luau "-framework IOKit")
+    target_link_libraries(raylib-luau "-framework Cocoa")
+    target_link_libraries(raylib-luau "-framework OpenGL")
 endif()
 
 if (${PLATFORM} STREQUAL "Web")
-    set_target_properties(rayliblu PROPERTIES SUFFIX ".html")
+    set_target_properties(raylib-luau PROPERTIES SUFFIX ".html")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
 endif()
 
