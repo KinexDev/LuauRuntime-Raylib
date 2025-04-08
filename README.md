@@ -1,2 +1,2 @@
 # LuauRuntime-Raylib
-Raylib bindings for luau.
+Unfinished raylib bindings for luau.
