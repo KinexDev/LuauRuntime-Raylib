@@ -12,11 +12,12 @@ local color = {
     end
 }
 
+export type texture = {}
+export type sound = {}
+
 local vec2 = {}
 
 local vec2_mt = {}
-
-vec2_mt.__index = vec2
 
 vec2_mt.__add = function(a: vec2, b: vec2): vec2
 	return vec2.new(a.x + b.x, a.y + b.y)
@@ -38,10 +39,21 @@ vec2_mt.__tostring = function(a: vec2): string
 	return "(" .. a.x .. ", " .. a.y .. ")"
 end
 
+vec2_mt._eq = function(a: vec2, b: vec2): boolean
+	return a.x == b.x and a.y == b.y
+end
+
 function vec2.new(x: number, y: number) : vec2
 	local b: { x: number, y: number} = { x = x, y = y }
 	return setmetatable(b, vec2_mt) :: vec2
 end
+
+vec2.zero = vec2.new(0, 0)
+vec2.one = vec2.new(1, 1)
+vec2.up = vec2.new(0, 1)
+vec2.down = vec2.new(0, -1)
+vec2.right = vec2.new(1, 0)
+vec2.left = vec2.new(-1, 0)
 
 export type vec2 = typeof(setmetatable({} :: { x: number, y: number}, vec2_mt))
 

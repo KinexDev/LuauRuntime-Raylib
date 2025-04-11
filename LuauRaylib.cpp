@@ -201,11 +201,204 @@ LUAU_API int Luau_GetFPS(lua_State* L)
 LUAU_API int Luau_EndDrawing(lua_State* L)
 {
     EndDrawing();
-    return 1;
+    return 0;
 }
 
 LUAU_API int Luau_CloseWindow(lua_State* L)
 {
     CloseWindow();
+    return 0;
+}
+
+LUAU_API int Luau_InitAudioDevice(lua_State* L)
+{
+    InitAudioDevice();
+    return 0;
+}
+
+LUAU_API int Luau_CloseAudioDevice(lua_State* L)
+{
+    CloseAudioDevice();
+    return 0;
+}
+
+LUAU_API int Luau_LoadTexture(lua_State* L)
+{
+    const char* path = lua_tostring(L, 1);
+    Texture2D* tex = new Texture2D(LoadTexture(path));
+    lua_pushlightuserdata(L, tex);
     return 1;
 }
+
+LUAU_API int Luau_UnloadTexture(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+    Texture2D* tex = (Texture2D*)lua_tolightuserdata(L, 1);
+    if (tex)
+    {
+        UnloadTexture(*tex);
+        delete tex;
+    }
+    return 0;
+}
+
+LUAU_API int Luau_DrawTexture(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+
+    Texture2D* tex = (Texture2D*)lua_tolightuserdata(L, 1);
+    Vector2 position = LuauC_GetVector2(L, 2);
+    Color color = LuauC_GetColor(L, 3);
+
+    if (tex)
+    {
+        DrawTexture(*tex, position.x, position.y, color);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_LoadSound(lua_State* L)
+{
+    const char* path = lua_tostring(L, 1);
+    Sound* sound = new Sound(LoadSound(path));
+    lua_pushlightuserdata(L, sound);
+    return 1;
+}
+
+LUAU_API int Luau_PlaySound(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+
+    Sound* sound = (Sound*)lua_tolightuserdata(L, 1);
+    if (sound)
+    {
+        if (IsSoundValid(*sound))
+        {
+            PlaySound(*sound);
+        }
+    }
+    return 0;
+}
+
+
+LUAU_API int Luau_StopSound(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+    Sound* tex = (Sound*)lua_tolightuserdata(L, 1);
+    if (tex)
+    {
+        StopSound(*tex);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_PauseSound(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+    Sound* tex = (Sound*)lua_tolightuserdata(L, 1);
+    if (tex)
+    {
+        PauseSound(*tex);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_ResumeSound(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+    Sound* tex = (Sound*)lua_tolightuserdata(L, 1);
+    if (tex)
+    {
+        ResumeSound(*tex);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_UnloadSound(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+    Sound* tex = (Sound*)lua_tolightuserdata(L, 1);
+    if (tex)
+    {
+        UnloadSound(*tex);
+        delete tex;
+    }
+    return 0;
+}
+
+LUAU_API int Luau_SetSoundPitch(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+
+    Sound* sound = (Sound*)lua_tolightuserdata(L, 1);
+    float pitch = lua_tonumber(L, 2);
+
+    if (sound)
+    {
+        SetSoundPitch(*sound, pitch);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_SetSoundVolume(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+
+    Sound* sound = (Sound*)lua_tolightuserdata(L, 1);
+    float volume = lua_tonumber(L, 2);
+
+    if (sound)
+    {
+        SetSoundVolume(*sound, volume);
+    }
+    return 0;
+}
+
+LUAU_API int Luau_SetSoundPan(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+        return 0;
+
+    Sound* sound = (Sound*)lua_tolightuserdata(L, 1);
+    float pan = lua_tonumber(L, 2);
+
+    if (sound)
+    {
+        SetSoundPan(*sound, pan);
+    }
+
+    return 0;
+}
+
+LUAU_API int Luau_IsSoundPlaying(lua_State* L)
+{
+    if (!lua_islightuserdata(L, 1))
+    {
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+
+    Sound* sound = (Sound*)lua_tolightuserdata(L, 1);
+    float pan = lua_tonumber(L, 2);
+
+    if (sound)
+    {
+        lua_pushboolean(L, IsSoundPlaying(*sound));
+    }
+    else
+    {
+        lua_pushboolean(L, 0);
+    }
+
+    return 1;
+}
+
