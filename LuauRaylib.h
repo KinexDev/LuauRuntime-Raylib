@@ -1,6 +1,8 @@
 #pragma once
 
+extern "C" {
 #include "lualib.h"
+}
 #include "raylib.h"
 
 #define LUAU_API extern "C" __declspec(dllexport)

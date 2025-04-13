@@ -7,8 +7,6 @@ endif()
 
 project ("raylib-luau")
 
-add_subdirectory(thirdparty/luau)
-
 set(RAYLIB_VERSION 5.5)
 
 find_package(raylib ${RAYLIB_VERSION} QUIET)
@@ -30,7 +28,16 @@ endif()
 
 add_library(raylib-luau SHARED "LuauRaylib.cpp"     "LuauRaylib.h")
 
-target_link_libraries(raylib-luau PRIVATE Luau.VM Luau.Compiler raylib)
+target_link_libraries(raylib-luau PRIVATE
+    "${PROJECT_SOURCE_DIR}/libs/Luau.Compiler.lib"
+    "${PROJECT_SOURCE_DIR}/libs/Luau.VM.lib"
+    "${PROJECT_SOURCE_DIR}/libs/Luau.Ast.lib"
+    raylib
+)
+
+target_include_directories(raylib-luau PRIVATE
+    "${PROJECT_SOURCE_DIR}/include"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET raylib-luau PROPERTY CXX_STANDARD 20)
