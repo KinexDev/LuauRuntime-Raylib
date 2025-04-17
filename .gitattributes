@@ -1,3 +1,4 @@
 * linguist-vendored
-include/luau/*.h linguist-vendored=true
-builds/include/luau/*.h linguist-vendored=true
+*.cpp linguist-vendored=false
+*.luau linguist-vendored=false
+include/*.h linguist-vendored=true
