@@ -26,7 +26,7 @@ if (NOT raylib_FOUND)
   endif()
 endif()
 
-add_library(raylib-luau SHARED "LuauRaylib.cpp"     "LuauRaylib.h")
+add_library(raylib-luau SHARED "LuauRaylib.cpp" "LuauRaylib.h")
 
 target_link_libraries(raylib-luau PRIVATE
     "${PROJECT_SOURCE_DIR}/libs/Luau.Compiler.lib"
