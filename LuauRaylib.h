@@ -45,5 +45,9 @@ LUAU_API int Luau_SetSoundPitch(lua_State* L);
 LUAU_API int Luau_SetSoundVolume(lua_State* L);
 LUAU_API int Luau_SetSoundPan(lua_State* L);
 LUAU_API int Luau_IsSoundPlaying(lua_State* L);
+
+LUAU_API int Luau_ToggleFullscreen(lua_State* L);
+LUAU_API int Luau_SetWindowTitle(lua_State* L);
+LUAU_API int Luau_SetWindowState(lua_State* L);
 Color LuauC_GetColor(lua_State* L, int idx);
 Vector2 LuauC_GetVector2(lua_State* L, int idx);

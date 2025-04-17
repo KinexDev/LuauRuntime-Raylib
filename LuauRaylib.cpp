@@ -402,3 +402,22 @@ LUAU_API int Luau_IsSoundPlaying(lua_State* L)
     return 1;
 }
 
+// working on these.
+LUAU_API int Luau_ToggleFullscreen(lua_State* L)
+{
+    ToggleFullscreen();
+    return 0;
+}
+
+LUAU_API int Luau_SetWindowTitle(lua_State* L)
+{
+    const char* text = lua_tostring(L, 1);
+    SetWindowTitle(text);
+    return 0;
+}
+
+LUAU_API int Luau_SetWindowState(lua_State* L)
+{
+    return 0;
+}
+
